@@ -16,7 +16,7 @@ const pw = 'C0denCQRT!'
 const distUrl = `mongodb+srv://fabezio:${pw}@cluster0.0r1tc.mongodb.net/${db}?retryWrites=true&w=majority`
 const localUrl = `mongodb://localhost/${db}`
 
-connect(localUrl, {
+connect(distUrl, {
   useCreateIndex: true,
   useUnifiedTopology: true,
   useNewUrlParser: true
@@ -36,7 +36,7 @@ const User = model('User', userSch)
 app.get('/', (_, res) => {
   res.send('<a href="/users" >Users</a>')
 })
-app.use('/users', router)
+app.use('/users', cors( ), router)
 router.route('/').get((_, res) => {
   User.find({}, (err, user) => {
     err
@@ -52,6 +52,7 @@ router.route('/:id').get((req, res) => {
   })
 })
 router.route('/add').post((req, res) => {
+    console.log(req.body)
   const newUser = new User(req.body)
   newUser.save()
   .then(() => res.status(200).send({mesage: `${newUser.lastname} ${newUser.firstname} enregistré`}))
