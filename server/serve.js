@@ -64,7 +64,7 @@ router.route('/:id').delete((req, res) => {
   User.findByIdAndRemove({ _id: req.params.id }, (err, item) => {
     err
       ? res.status(400).send('Not found')
-      : res.status(200).send("ok!")
+      : res.status(200).send('ok!')
   })
 })
 
